@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import "./statistics.scss";
-import PlayersList from "./playersList/PlayersList";
+import "./styles/statistics.scss";
+import PlayersList from "./PlayersList";
 import { AppContext } from "../../context/AppContext";
-import LastUserScore from "./lastUserScore/LastUserScore";
+import LastUserScore from "./LastUserScore";
+import Logout from "./Logout";
 
-const StatisticsContainer = () => {
+const SideContainer = () => {
   const [state] = useContext(AppContext);
   const [playersList, setPlayersList] = useState(state.players);
 
@@ -16,7 +17,7 @@ const StatisticsContainer = () => {
       if (prevPlayer === undefined) {
         return { ...player, rateBarLength: "100%" };
       } else {
-        return { ...player, rateBarLength: Math.floor((player.points / prevPlayer.points) * 100) + "%" };
+        return { ...player, rateBarLength: Math.floor((player.score / prevPlayer.score) * 100) + "%" };
       }
     });
 
@@ -30,9 +31,10 @@ const StatisticsContainer = () => {
   return (
     <div className="side-container">
       {state.players.length >= 1 && <PlayersList sortedList={playersList} />}
-      {state.players.length >= 1 && <LastUserScore />}
+      <LastUserScore />
+      <Logout />
     </div>
   );
 };
 
-export default StatisticsContainer;
+export default SideContainer;
